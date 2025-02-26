@@ -1,0 +1,12 @@
+.scroll-container{
+  overflow-y: scroll;
+}
+
+.scroll-container::-webkit-scrollbar{
+  width:4px;
+  border-radius: 20px;
+}
+.scroll-container::-webkit-scrollbar-thumb{
+  background-color: gray;
+  border-radius: 20px;
+}
