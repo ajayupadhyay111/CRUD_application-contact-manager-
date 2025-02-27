@@ -23,6 +23,7 @@ export const newContact = async (setFilteredContacts, formData) => {
     console.log(response)
     setFilteredContacts((prev) => [...prev, response.data.user]);
   } catch (error) {
+    console.log(error)
     alert(error.response.data.message);
   }
 };

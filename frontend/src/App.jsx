@@ -58,11 +58,13 @@ const App = () => {
     e.preventDefault();
 
     await updateContact(setFilteredContacts, formData);
+    setContacts(filteredContacts)
     setEditable(false); // Close the dialog after update
   };
 
   const handleDelete = async (id) => {
     await deleteContact(setFilteredContacts, id);
+    setContacts(filteredContacts)
     setDelitable(false); // Close dialog after deletion
   };
 
