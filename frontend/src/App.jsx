@@ -45,9 +45,8 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      await GetAllContacts(setContacts);
+      await GetAllContacts(setContacts,setFilteredContacts);
     })();
-    setFilteredContacts(contacts)
   }, []);
 
   const handleChange = (e) => {
@@ -58,15 +57,16 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await updateContact(setContacts, formData);
+    await updateContact(setFilteredContacts, formData);
     setEditable(false); // Close the dialog after update
   };
 
   const handleDelete = async (id) => {
-    await deleteContact(setContacts, id);
+    await deleteContact(setFilteredContacts, id);
     setDelitable(false); // Close dialog after deletion
   };
 
+  console.log(searchText)
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -83,7 +83,7 @@ const App = () => {
   };
   const handleNewContact = async (e) => {
     e.preventDefault();
-    await newContact(setContacts, newFormData);
+    await newContact(setFilteredContacts, newFormData);
     setNewForm(false);
     setNewFormData({
       username: "",
@@ -93,17 +93,20 @@ const App = () => {
     });
   };
 
-  const handleSearch = async (e) => {
-    setSearchText(e.target.value);
-    setFilteredContacts(
-      contacts.filter((contact) =>
-        Object.values(contact).some((value) =>
-          value.toString().toLowerCase().includes(searchText.toLowerCase())
-        )
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchText(query);
+    setFilteredContacts(searchContacts(query)); // Pass query instead of searchText
+  };
+  
+  const searchContacts = (query) => {
+    return contacts.filter(contact =>
+      Object.values(contact).some((value) =>
+        value.toString().toLowerCase().includes(query.toLowerCase()) // Use query here
       )
     );
   };
-  console.log(filteredContacts)
+  // console.log(filteredContacts)
 
   return (
     <div className="container mx-auto mt-5">
